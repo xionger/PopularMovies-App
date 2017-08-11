@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/movie_voting"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/voting_first_star"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:scaleType="fitXY"/>
+
+    <ImageView
+        android:id="@+id/voting_second_star"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:scaleType="fitXY"/>
+
+    <ImageView
+        android:id="@+id/voting_third_star"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:scaleType="fitXY"/>
+
+    <ImageView
+        android:id="@+id/voting_fourth_star"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:scaleType="fitXY"/>
+
+    <ImageView
+        android:id="@+id/voting_fifth_star"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:scaleType="fitXY"/>
+</LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/Howardx/Documents/adn/PopularMovies-I/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0ea2b5952e394efde69539a2f3e49eaf6222c9cd">
+        <dex dex="/Users/Howardx/Documents/adn/PopularMovies-I/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_e53eb0a946d30801677e446f6c09999a95323031/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Howardx/Documents/adn/PopularMovies-I/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/Howardx/Documents/adn/PopularMovies-I/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_6a7ca57fe234f925bfbf3c71de57d0b520bb4d5f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Howardx/Documents/adn/PopularMovies-I/app/libs/picasso-2.5.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/Users/Howardx/Documents/adn/PopularMovies-I/app/build/intermediates/transforms/dex/debug/folders/1000/2/picasso-2.5.2_302ca74c2980bf615fb70e82a48ddf0d0cb69d94/classes.dex" />
+    </item>
+
+</items>
