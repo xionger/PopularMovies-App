@@ -67,12 +67,15 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
         if (null == mCursor) {
             return 0;
         }
+        Log.d(TAG, "Review numbers: " + mCursor.getCount());
         return mCursor.getCount();
     }
 
     public void swapCursor(Cursor cursor){
         mCursor = cursor;
         notifyDataSetChanged();
+
+        Log.d(TAG, "Exiting swapCursor...");
         //mEmptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 

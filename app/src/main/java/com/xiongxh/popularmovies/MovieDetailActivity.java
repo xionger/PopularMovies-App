@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.xiongxh.popularmovies.fragments.MovieDetailFragment;
-import com.xiongxh.popularmovies.fragments.MovieReviewsFragment;
 import com.xiongxh.popularmovies.utilities.ConstantsUtils;
 
 import static com.xiongxh.popularmovies.data.MovieContract.CONTENT_AUTHORITY;
@@ -56,7 +55,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
     @Override
     public void onItemSelected(String trailerKey){
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(ConstantsUtils.BASE_URL_YOUTUBE_BROWSER + trailerKey));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(ConstantsUtils.BASE_URL_YOUTUBE_APP + trailerKey));
         intent.putExtra(ConstantsUtils.YOUTUBE_VIDEO_ID, trailerKey);
 
         startActivity(intent);

@@ -71,8 +71,8 @@ public class MovieContract {
         public static final String COLUMN_REVIEW_AUTHOR = "author";
         public static final String COLUMN_REVIEW_CONTENT = "content";
 
-        public static Uri buildReviewUri(String movieId) {
-            return CONTENT_URI.buildUpon().appendPath(movieId).build();
+        public static Uri buildReviewUriByMovieId(String movieIdStr) {
+            return CONTENT_URI.buildUpon().appendPath(movieIdStr).build();
         }
     }
 

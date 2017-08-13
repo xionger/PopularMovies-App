@@ -4,15 +4,19 @@ package com.xiongxh.popularmovies.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.xiongxh.popularmovies.R;
 import com.xiongxh.popularmovies.data.MovieContract;
 import com.xiongxh.popularmovies.utilities.ConstantsUtils;
@@ -21,36 +25,14 @@ import org.w3c.dom.Text;
 
 import static android.R.attr.start;
 
-/**
-public class MovieTrailersAdapter extends CursorAdapter {
-    private static final String TAG = MovieTrailersAdapter.class.getSimpleName();
-
-    public MovieTrailersAdapter(Context context, Cursor cursor, int i){
-        super(context, cursor, i);
-    }
-
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item_trailer, viewGroup, false);
-        return view;
-    }
-
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        TextView trailerName = (TextView) view.findViewById(R.id.tv_movie_trailer_name);
-        trailerName.setText(cursor.getString(ConstantsUtils.COLUMN_VIDEO_NAME));
-    }
-
-}
-    */
-
-
 public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdapter.TrailerViewHolder> {
     private static final String TAG = MovieTrailersAdapter.class.getSimpleName();
 
     private final Context mContext;
     private Cursor mCursor;
+
+    public static final String BASE_YOUTUBE_THUMBNAIL_URL = "http://img.youtube.com/vi/";
+    public static final String YOUTUBE_THUMBNAIL_SUFFIX = "/0.jpg";
 
 
     private MovieTrailerAdapterOnClickHandler mMovieTrailerOnClickHandler;
@@ -89,6 +71,8 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
     public void onBindViewHolder(TrailerViewHolder trailerHolder, int position) {
         Log.d(TAG, "#" + position);
 
+        final Context context = trailerHolder.mView.getContext();
+
         if (! mCursor.moveToFirst()){
             return;
         }
@@ -103,6 +87,14 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
 
         String trailerType = mCursor.getString(ConstantsUtils.COLUMN_VIDEO_TYPE);
         trailerHolder.mTrailerTypeView.setText(trailerType);
+
+        String thumbnailUrl = BASE_YOUTUBE_THUMBNAIL_URL + trailerKey + YOUTUBE_THUMBNAIL_SUFFIX;
+        Log.d(TAG, "trailer youtube thumbnail url: " + thumbnailUrl);
+
+        Picasso.with(context)
+                .load(thumbnailUrl)
+                .config(Bitmap.Config.RGB_565)
+                .into(trailerHolder.mTrailerThumbnailView);
     }
 
     @Override
@@ -118,13 +110,17 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
     public void swapCursor(Cursor cursor){
         mCursor = cursor;
         notifyDataSetChanged();
+        Log.d(TAG, "Exiting swapCursor...");
         //mEmptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
     public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public final View mView;
+
         private TextView mTrailerIdView;
         private TextView mTrailerKeyView;
         private TextView mTrailerTypeView;
+        private ImageView mTrailerThumbnailView;
 
         public TrailerViewHolder(View itemView){
             super(itemView);
@@ -132,6 +128,9 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
             mTrailerIdView = (TextView) itemView.findViewById(R.id.tv_movie_trailer_id);
             mTrailerKeyView = (TextView) itemView.findViewById(R.id.tv_movie_trailer_key);
             mTrailerTypeView = (TextView) itemView.findViewById(R.id.tv_movie_trailer_type);
+            mTrailerThumbnailView = (ImageView) itemView.findViewById(R.id.iv_movie_trailer_thum);
+
+            mView = itemView;
 
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
