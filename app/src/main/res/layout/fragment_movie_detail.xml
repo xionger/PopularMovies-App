@@ -79,13 +79,28 @@
             android:onClick="showReviews"
             android:text="Read Reviews"/>
 
+        <!--
         <Button
             android:id="@+id/button_watch_trailers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="showTrailers"
             android:text="Watch Trailers"/>
+        -->
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_movie_trailers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app.layoutManager = "LinearLayoutManager"
+            tools:listItems="@layout/list_item_trailer" />
+
+        <TextView
+            android:id="@+id/tv_trailers_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No trailers"
+            android:visibility="visible"/>
 
 
         <!--

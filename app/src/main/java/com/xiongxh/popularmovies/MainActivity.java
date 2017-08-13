@@ -20,7 +20,8 @@ import com.xiongxh.popularmovies.utilities.FakeMovieUtils;
 
 import static com.xiongxh.popularmovies.data.MovieProvider.LOG_TAG;
 
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, MovieGridFragment.Callback {
+public class MainActivity extends AppCompatActivity
+        implements SharedPreferences.OnSharedPreferenceChangeListener, MovieGridFragment.Callback {
     private final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String MOVIEDETAILFRAGMENT = "MOVIEDETAILGRAGMENT";
 

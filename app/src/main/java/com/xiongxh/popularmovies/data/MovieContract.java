@@ -86,11 +86,18 @@ public class MovieContract {
         public static final String TABLE_NAME = "videos";
         public static final String COLUMN_VIDEO_ID = "video_id";
         public static final String COLUMN_VIDEO_KEY = "key";
+        public static final String COLUMN_VIDEO_NAME = "name";
         public static final String COLUMN_VIDEO_SITE = "site";
         public static final String COLUMN_VIDEO_TYPE = "type";
 
-        public static Uri buildVideoUri(String movieId) {
-            return CONTENT_URI.buildUpon().appendPath(movieId).build();
+
+        public static Uri buildVideosUriByMovieId(String movieIdStr) {
+            return CONTENT_URI.buildUpon().appendPath(movieIdStr).build();
+
+        /**
+        public static Uri buildVideoUri(long id){
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        */
         }
     }
 }

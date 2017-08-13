@@ -11,7 +11,7 @@ import com.xiongxh.popularmovies.data.MovieContract.VideosEntry;
 
 
 public class MovieDbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     static final String DATABASE_NAME = "popmovies.db";
 
@@ -48,6 +48,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 VideosEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 VideosEntry.COLUMN_VIDEO_ID + " TEXT NOT NULL, " +
                 VideosEntry.COLUMN_VIDEO_KEY + " TEXT NOT NULL, " +
+                VideosEntry.COLUMN_VIDEO_NAME + " TEXT NOT NULL, " +
                 VideosEntry.COLUMN_VIDEO_SITE + " TEXT, " +
                 VideosEntry.COLUMN_VIDEO_TYPE + " TEXT, " +
                 MovieEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL, " +

@@ -32,6 +32,7 @@ public class ConstantsUtils {
             MovieContract.MovieEntry.COLUMN_MOVIE_ID,
             MovieContract.VideosEntry.COLUMN_VIDEO_ID,
             MovieContract.VideosEntry.COLUMN_VIDEO_KEY,
+            MovieContract.VideosEntry.COLUMN_VIDEO_NAME,
             MovieContract.VideosEntry.COLUMN_VIDEO_SITE,
             MovieContract.VideosEntry.COLUMN_VIDEO_TYPE
     };
@@ -54,6 +55,12 @@ public class ConstantsUtils {
 
     public static final int COLUMN_VIDEO_ID = 2;
     public static final int COLUMN_VIDEO_KEY = 3;
-    public static final int COLUMN_VIDEO_SITE = 4;
-    public static final int COLUMN_VIDEO_TYPE = 5;
+    public static final int COLUMN_VIDEO_NAME = 4;
+    public static final int COLUMN_VIDEO_SITE = 5;
+    public static final int COLUMN_VIDEO_TYPE = 6;
+
+    public static final String BASE_URL_YOUTUBE_APP = "vnd.youtube:";
+    public static final String BASE_URL_YOUTUBE_BROWSER = "https://www.youtube.com/watch?v=";
+
+    public static final String YOUTUBE_VIDEO_ID = "VIDEO_ID";
 }

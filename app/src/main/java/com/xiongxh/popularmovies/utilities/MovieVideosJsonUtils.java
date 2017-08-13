@@ -19,6 +19,7 @@ public class MovieVideosJsonUtils {
     private static final String MDB_VD_RESULT = "results";
     private static final String MDB_VD_ID = "id";
     private static final String MDB_VD_KEY = "key";
+    private static final String MDB_VD_NAME = "name";
     private static final String MDB_VD_SITE = "site";
     private static final String MDB_VD_TYPE = "type";
 
@@ -47,6 +48,7 @@ public class MovieVideosJsonUtils {
 
             String videoId;
             String videoKey;
+            String videoName;
             String videoSite;
             String videoType;
 
@@ -55,6 +57,7 @@ public class MovieVideosJsonUtils {
 
             videoId = movieVideoObject.getString(MDB_VD_ID);
             videoKey = movieVideoObject.getString(MDB_VD_KEY);
+            videoName = movieVideoObject.getString(MDB_VD_NAME);
             videoSite = movieVideoObject.getString(MDB_VD_SITE);
             videoType = movieVideoObject.getString(MDB_VD_TYPE);
 
@@ -66,6 +69,7 @@ public class MovieVideosJsonUtils {
 
                 videoValues.put(MovieContract.VideosEntry.COLUMN_VIDEO_ID, videoId);
                 videoValues.put(MovieContract.VideosEntry.COLUMN_VIDEO_KEY, videoKey);
+                videoValues.put(MovieContract.VideosEntry.COLUMN_VIDEO_NAME, videoName);
                 videoValues.put(MovieContract.VideosEntry.COLUMN_VIDEO_SITE, videoSite);
                 videoValues.put(MovieContract.VideosEntry.COLUMN_VIDEO_TYPE, videoType);
                 videoValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movieId);

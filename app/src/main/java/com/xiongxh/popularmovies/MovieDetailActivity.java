@@ -1,6 +1,7 @@
 package com.xiongxh.popularmovies;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,11 +9,12 @@ import android.util.Log;
 
 import com.xiongxh.popularmovies.fragments.MovieDetailFragment;
 import com.xiongxh.popularmovies.fragments.MovieReviewsFragment;
+import com.xiongxh.popularmovies.utilities.ConstantsUtils;
 
 import static com.xiongxh.popularmovies.data.MovieContract.CONTENT_AUTHORITY;
 import static com.xiongxh.popularmovies.data.MovieContract.PATH_REVIEWS;
 
-public class MovieDetailActivity extends AppCompatActivity{
+public class MovieDetailActivity extends AppCompatActivity implements MovieDetailFragment.Callback {
 
     public static final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
 
@@ -50,6 +52,14 @@ public class MovieDetailActivity extends AppCompatActivity{
             }
 
         }
+    }
+
+    @Override
+    public void onItemSelected(String trailerKey){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(ConstantsUtils.BASE_URL_YOUTUBE_BROWSER + trailerKey));
+        intent.putExtra(ConstantsUtils.YOUTUBE_VIDEO_ID, trailerKey);
+
+        startActivity(intent);
     }
 
 
