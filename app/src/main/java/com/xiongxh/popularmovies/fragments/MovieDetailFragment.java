@@ -130,26 +130,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
         //mReviewButton = (Button) rootView.findViewById(R.id.button_read_reviews);
 
-/*
-        mReviewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (mCursor == null || !mCursor.moveToFirst()){
-                    return;
-                }
-
-                String movieIdStr = mCursor.getString(ConstantsUtils.COLUMN_MOVIE_ID);
-                mMovieReviewsUri = Uri.parse("content://" + CONTENT_AUTHORITY + "/" + PATH_REVIEWS + "/" + movieIdStr);
-
-                Log.d(LOG_TAG, "mMovieReviewsUri: " + mMovieReviewsUri.toString());
-
-                Intent intent = new Intent(getActivity(), MovieReviewsActivity.class);
-                intent.putExtra(DEFAULT_REVIEW_URI, mMovieReviewsUri.toString());
-                startActivity(intent);
-            }
-        });
-        */
 
         LinearLayoutManager reviewLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         RecyclerView movieReviewRecycleView = (RecyclerView) rootView.findViewById(R.id.rv_movie_reviews);
@@ -193,10 +173,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         Log.d(LOG_TAG, "Entering onActivityCreated...");
         getLoaderManager().initLoader(DETAIL_LOADER_ID, null, this);
         Log.d(LOG_TAG, "After loading detail...");
-        //getLoaderManager().initLoader(REVIEW_LOADER_ID, null, this);
-        //Log.d(LOG_TAG, "After loading reviews...");
-        //getLoaderManager().initLoader(TRAILER_LOADER_ID, null, this);
-        //Log.d(LOG_TAG, "After loading trailers...");
         super.onActivityCreated(savedInstanceState);
     }
 
