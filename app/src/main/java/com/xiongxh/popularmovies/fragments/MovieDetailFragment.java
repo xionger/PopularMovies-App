@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -64,7 +65,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private Uri mVideosUri;
     private Cursor mCursor = null;
 
-    private String mMovieIdStr;
+    private String mMovieDetailIdStr;
 
     private MovieReviewsAdapter mMovieReviewsAdapter;
     private MovieTrailersAdapter mMovieTrailersAdapter;
@@ -81,6 +82,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @BindView(R.id.iv_movie_detail_poster) ImageView mPosterView;
     @BindView(R.id.iv_movie_detail_backdrop) ImageView mBackdropView;
     @BindView(R.id.tv_movie_overview) TextView mMovieOverview;
+    @BindView(R.id.btn_favorite) ImageButton mFavoriteButton;
+
     //@BindView(R.id.button_read_reviews) Button mReviewButton;
 
     //@BindView(R.id.lv_movie_trailers) ListView mMovieTrailersView;
@@ -109,9 +112,9 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             mMovieDetailUri = arguments.getParcelable(DEFAULT_MOVIE_URI);
             Log.d(LOG_TAG, "Inside arguments != null, mMovieUri: " + mMovieDetailUri);
 
-            mMovieIdStr = mMovieDetailUri.getPathSegments().get(1);
+            mMovieDetailIdStr = mMovieDetailUri.getPathSegments().get(1);
 
-            Log.d(LOG_TAG, "mMovieIdStr: " + mMovieIdStr);
+            Log.d(LOG_TAG, "mMovieIdStr: " + mMovieDetailIdStr);
 //
 //            mMovieReviewsUri = Uri.parse("content://" + CONTENT_AUTHORITY + "/" + PATH_REVIEWS + "/" + movieIdStr);
         }
@@ -223,7 +226,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         Log.d(LOG_TAG, "Before loading reviews... MovieId: " + currentMovieIdStr);
         LoaderManager loaderManager = getLoaderManager();
 
-        if (mMovieIdStr == null || !mMovieIdStr.equals(currentMovieIdStr)){
+        if (mMovieDetailIdStr == null || !mMovieDetailIdStr.equals(currentMovieIdStr)){
             mReviewsUri = MovieContract.ReviewsEntry.buildReviewUriByMovieId(currentMovieIdStr);
             Log.d(LOG_TAG, "Inside getReviews()..., mReviewsUri: " + mReviewsUri);
 
@@ -248,7 +251,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
         LoaderManager loaderManager = getLoaderManager();
 
-        if (mMovieIdStr == null || !mMovieIdStr.equals(currentMovieIdStr)){
+        if (mMovieDetailIdStr == null || !mMovieDetailIdStr.equals(currentMovieIdStr)){
             mVideosUri = MovieContract.VideosEntry.buildVideosUriByMovieId(currentMovieIdStr);
 
             FetchMovieTrailersTask fetchMovieTrailersTask = new FetchMovieTrailersTask(getActivity());

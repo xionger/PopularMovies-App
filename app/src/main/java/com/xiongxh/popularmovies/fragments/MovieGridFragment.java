@@ -1,6 +1,7 @@
 package com.xiongxh.popularmovies.fragments;
 
 import android.content.ContentValues;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
@@ -69,8 +70,14 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
 
         mMoviesRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_movies);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
-        mMoviesRecyclerView.setLayoutManager(layoutManager);
+        //GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
+        //mMoviesRecyclerView.setLayoutManager(layoutManager);
+
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            mMoviesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        } else {
+            mMoviesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
+        }
 
         mMoviesRecyclerView.setHasFixedSize(true);
 

@@ -30,12 +30,13 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <!--
         <activity android:name=".MovieReviewsActivity"
             android:launchMode="singleTop"></activity>
 
         <activity android:name=".MovieTrailersActivity"
             android:launchMode="singleTop"></activity>
-        <!--
+
         <activity android:name=".MovieReviewsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
