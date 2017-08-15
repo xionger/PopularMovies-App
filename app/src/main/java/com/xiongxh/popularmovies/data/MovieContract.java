@@ -5,6 +5,8 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import com.xiongxh.popularmovies.utilities.ConstantsUtils;
+
 
 public class MovieContract {
 
@@ -15,6 +17,7 @@ public class MovieContract {
     public static final String PATH_MOVIES = "movies";
     public static final String PATH_REVIEWS = "reviews";
     public static final String PATH_VIDEOS = "videos";
+    public static final String PATH_FAVORITE = "favorite";
 
     public static final class MovieEntry implements BaseColumns {
 
@@ -48,7 +51,11 @@ public class MovieContract {
 
         public static final String COLUMN_VOTENUM = "vote_number";
 
+        public static final String COLUMN_FAVORITE = "favorite_tag";
 
+        public static Uri buildMoviesUri(){
+            return BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIES).build();
+        }
 
         public static Uri buildMovieUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -57,6 +64,23 @@ public class MovieContract {
         public static String getMovieIdFromUri(Uri uri){
             return uri.getLastPathSegment();
         }
+
+        public static Uri buildFavoriteMoviesUri() {
+            return BASE_CONTENT_URI.buildUpon()
+                    .appendPath(PATH_MOVIES)
+                    .appendPath(PATH_FAVORITE)
+                    .build();
+        }
+
+        public static Uri buildFavoriteMovieUri(String movieIdStr, String updateFavorite){
+            return BASE_CONTENT_URI.buildUpon()
+                    .appendPath(PATH_MOVIES)
+                    .appendPath(PATH_FAVORITE)
+                    .appendPath(movieIdStr)
+                    .appendQueryParameter(COLUMN_FAVORITE, updateFavorite)
+                    .build();
+        }
+
     }
 
     public static final class ReviewsEntry implements BaseColumns {
@@ -74,13 +98,14 @@ public class MovieContract {
         public static Uri buildReviewUriByMovieId(String movieIdStr) {
             return CONTENT_URI.buildUpon().appendPath(movieIdStr).build();
         }
+
     }
 
     public static final class VideosEntry implements BaseColumns{
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_VIDEOS).build();
 
-        public final String CONTENT_TYPE =
+        public static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_VIDEOS;
 
         public static final String TABLE_NAME = "videos";

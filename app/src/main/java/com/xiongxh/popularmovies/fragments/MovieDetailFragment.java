@@ -212,6 +212,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         String movieOverview = cursor.getString(ConstantsUtils.COLUMN_OVERVIEW);
         mMovieOverview.setText(movieOverview);
 
+        String favoriteTag = cursor.getString(ConstantsUtils.COLUMN_FAVORITE);
+
+        updateFavorite(favoriteTag);
+
         String currMovieIdStr = cursor.getString(ConstantsUtils.COLUMN_MOVIE_ID);
 
         Log.d(LOG_TAG, "Inside updateDetailView, movie id: " + currMovieIdStr);
@@ -266,6 +270,14 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
         loaderManager.initLoader(VIDEO_LOADER_ID, null, this);
         Log.d(LOG_TAG, "After loading videos... MovieId: " + currentMovieIdStr);
+    }
+
+    private void updateFavorite(String favoriteTag){
+        if (favoriteTag != null && favoriteTag.equals(ConstantsUtils.FAVORITE_TAG)){
+            mFavoriteButton.setImageResource(R.drawable.icon_heart_red_50);
+        } else {
+            mFavoriteButton.setImageResource(R.drawable.icon_heart_gray_50);
+        }
     }
 
     @Override

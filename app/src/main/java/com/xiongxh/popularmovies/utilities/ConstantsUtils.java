@@ -16,7 +16,8 @@ public class ConstantsUtils {
             MovieContract.MovieEntry.COLUMN_LANGUAGE,
             MovieContract.MovieEntry.COLUMN_VOTESCORE,
             MovieContract.MovieEntry.COLUMN_VOTENUM,
-            MovieContract.MovieEntry.COLUMN_POP
+            MovieContract.MovieEntry.COLUMN_POP,
+            MovieContract.MovieEntry.COLUMN_FAVORITE
     };
 
     public static final String[] MOVIE_REVIEW_COLUMNS={
@@ -48,6 +49,7 @@ public class ConstantsUtils {
     public static final int COLUMN_VOTESCORE = 8;
     public static final int COLUMN_VOTENUM = 9;
     public static final int COLUMN_POP = 10;
+    public static final int COLUMN_FAVORITE = 11;
 
     public static final int COLUMN_REVIEW_ID = 2;
     public static final int COLUMN_REVIEW_CONTENT = 3;
@@ -63,4 +65,7 @@ public class ConstantsUtils {
     public static final String BASE_URL_YOUTUBE_BROWSER = "https://www.youtube.com/watch?v=";
 
     public static final String YOUTUBE_VIDEO_ID = "VIDEO_ID";
+
+    public static final String FAVORITE_TAG = "Y";
+    public static final String UNFAVORITE_TAG = "N";
 }
