@@ -68,4 +68,6 @@ public class ConstantsUtils {
 
     public static final String FAVORITE_TAG = "Y";
     public static final String UNFAVORITE_TAG = "N";
+    public static final String MESSAGE_ADD_FAVORITE = " is added to favorite movies!";
+    public static final String MESSAGE_REMOVE_FAVORITE = " is removed from favorite movies!";
 }

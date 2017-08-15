@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -37,6 +38,7 @@ import com.xiongxh.popularmovies.adapters.MovieTrailersAdapter;
 import com.xiongxh.popularmovies.data.FetchMovieReviewsTask;
 import com.xiongxh.popularmovies.data.FetchMovieTrailersTask;
 import com.xiongxh.popularmovies.data.MovieContract;
+import com.xiongxh.popularmovies.data.MoviePreferences;
 import com.xiongxh.popularmovies.utilities.ConstantsUtils;
 import com.xiongxh.popularmovies.utilities.NetworkUtils;
 
@@ -129,6 +131,47 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
         ButterKnife.bind(this, rootView);
 
+        mFavoriteButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+
+                Toast.makeText(getActivity(), "favorite button is clicked", Toast.LENGTH_SHORT).show();
+
+                if (mCursor == null || !mCursor.moveToFirst()){
+                    Log.d(LOG_TAG, "Favorite click null");
+                    return;
+                }
+
+                String movieIdStr = mCursor.getString(ConstantsUtils.COLUMN_MOVIE_ID);
+                String movieTitle = mCursor.getString(ConstantsUtils.COLUMN_TITLE);
+                String favoriteTag = mCursor.getString(ConstantsUtils.COLUMN_FAVORITE);
+
+                Log.d(LOG_TAG, "Before Click Favorite Button... favoriteTag: " + mCursor.getString(ConstantsUtils.COLUMN_FAVORITE));
+
+                Uri favoriteUri;
+                int updatedRows;
+
+                if (favoriteTag == ConstantsUtils.FAVORITE_TAG){
+                    favoriteUri = MovieContract.MovieEntry.buildFavoriteMovieUri(movieIdStr, ConstantsUtils.UNFAVORITE_TAG);
+
+                } else {
+                    favoriteUri = MovieContract.MovieEntry.buildFavoriteMovieUri(movieIdStr, ConstantsUtils.FAVORITE_TAG);
+                }
+
+                updatedRows = getActivity().getContentResolver().update(favoriteUri, null, null, null);
+
+                Log.d(LOG_TAG, "Favorite update rows: " + updatedRows);
+
+                if (updatedRows == 1){
+                    MoviePreferences.updateFavoriteMessage(favoriteTag, movieTitle, getContext());
+                    onFavorite();
+
+                    Log.d(LOG_TAG, "After onFavorite... favoriteTag: " + mCursor.getString(ConstantsUtils.COLUMN_FAVORITE));
+                }
+
+            }
+        });
+
         //mReviewsView = (ListView) rootView.findViewById(R.id.lv_movie_reviews);
 
         //mReviewButton = (Button) rootView.findViewById(R.id.button_read_reviews);
@@ -214,7 +257,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
         String favoriteTag = cursor.getString(ConstantsUtils.COLUMN_FAVORITE);
 
-        updateFavorite(favoriteTag);
+        updateFavoriteLabel(favoriteTag);
 
         String currMovieIdStr = cursor.getString(ConstantsUtils.COLUMN_MOVIE_ID);
 
@@ -272,7 +315,11 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         Log.d(LOG_TAG, "After loading videos... MovieId: " + currentMovieIdStr);
     }
 
-    private void updateFavorite(String favoriteTag){
+    private void onFavorite(){
+        getLoaderManager().restartLoader(DETAIL_LOADER_ID, null, this);
+    }
+
+    private void updateFavoriteLabel(String favoriteTag){
         if (favoriteTag != null && favoriteTag.equals(ConstantsUtils.FAVORITE_TAG)){
             mFavoriteButton.setImageResource(R.drawable.icon_heart_red_50);
         } else {
