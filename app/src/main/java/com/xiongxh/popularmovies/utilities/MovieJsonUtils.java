@@ -89,6 +89,7 @@ public class MovieJsonUtils {
             movieValues.put(MovieEntry.COLUMN_VOTENUM, voteNumber);
             movieValues.put(MovieEntry.COLUMN_VOTESCORE, voteScore);
             movieValues.put(MovieEntry.COLUMN_POP, moviePopularity);
+            movieValues.put(MovieEntry.COLUMN_FAVORITE, ConstantsUtils.UNFAVORITE_TAG);
 
             movieContentValues[i]= movieValues;
         }

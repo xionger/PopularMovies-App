@@ -330,7 +330,8 @@ public class MovieProvider extends ContentProvider {
             }
             case MOVIE_IDX:{
                 String movieIndexStr = uri.getPathSegments().get(1);
-                String mSelection = "_id=?";
+                //String mSelection = "_id=?";
+                String mSelection = mMovieIdSelection;
                 String[] mSelectionArgs = new String[]{movieIndexStr};
 
                 rowsDeleted = db.delete(MovieEntry.TABLE_NAME, mSelection, mSelectionArgs);
@@ -345,7 +346,8 @@ public class MovieProvider extends ContentProvider {
             }
             case REVIEW_IDX: {
                 String reviewIndexStr = uri.getPathSegments().get(1);
-                String mSelection = "_id=?";
+                //String mSelection = "_id=?";
+                String mSelection = mMovieIdSelection;
                 String[] mSelectionArgs = new String[] {reviewIndexStr};
 
                 rowsDeleted = db.delete(ReviewsEntry.TABLE_NAME, mSelection, mSelectionArgs);
@@ -360,7 +362,8 @@ public class MovieProvider extends ContentProvider {
             }
             case VIDEO_IDX: {
                 String videoIndexStr = uri.getPathSegments().get(1);
-                String mSelection = "_id=?";
+                //String mSelection = "_id=?";
+                String mSelection = mMovieIdSelection;
                 String[] mSelectionArgs = new String[] {videoIndexStr};
 
                 rowsDeleted = db.delete(VideosEntry.TABLE_NAME, mSelection, mSelectionArgs);
@@ -399,8 +402,12 @@ public class MovieProvider extends ContentProvider {
                 break;
             }
             case MOVIE_IDX: {
+                Log.d(LOG_TAG, "update matching MOVIE_IDX");
                 String movieIndexStr = uri.getPathSegments().get(1);
-                String mSelection = "_id=?";
+                Log.d(LOG_TAG, "update movieIndexStr: " + movieIndexStr);
+                //String mSelection = "_id=?";
+                //String mSelection = mMovieIdSelection;
+                String mSelection = MovieEntry.TABLE_NAME + "." + MovieEntry._ID + "=?";
                 String[] mSelectionArgs = new String[]{movieIndexStr};
 
                 rowsUpdated = db.update(
@@ -421,8 +428,10 @@ public class MovieProvider extends ContentProvider {
 
                 rowsUpdated = db.update(MovieEntry.TABLE_NAME,
                         contentValues,
-                        mMovieIdSelection,
+                        mFavoriteMoviesSelection,
                         mSelectionArgs);
+
+                break;
             }
 
             default: {

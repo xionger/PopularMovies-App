@@ -1,6 +1,7 @@
 package com.xiongxh.popularmovies.fragments;
 
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -38,10 +39,12 @@ import com.xiongxh.popularmovies.adapters.MovieTrailersAdapter;
 import com.xiongxh.popularmovies.data.FetchMovieReviewsTask;
 import com.xiongxh.popularmovies.data.FetchMovieTrailersTask;
 import com.xiongxh.popularmovies.data.MovieContract;
+import com.xiongxh.popularmovies.data.MovieContract.MovieEntry;
 import com.xiongxh.popularmovies.data.MoviePreferences;
 import com.xiongxh.popularmovies.utilities.ConstantsUtils;
 import com.xiongxh.popularmovies.utilities.NetworkUtils;
 
+import static android.R.attr.actionModeCopyDrawable;
 import static android.R.attr.data;
 import static android.R.attr.logoDescription;
 import static com.xiongxh.popularmovies.data.MovieContract.CONTENT_AUTHORITY;
@@ -61,10 +64,12 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private static final int DETAIL_LOADER_ID = 10;
     private static final int REVIEW_LOADER_ID = 20;
     private static final int VIDEO_LOADER_ID = 30;
+    private static final int FAVORITE_LOADER_ID = 40;
 
     private Uri mMovieDetailUri;
     private Uri mReviewsUri;
     private Uri mVideosUri;
+    private Uri mMovieUri;
     private Cursor mCursor = null;
 
     private String mMovieDetailIdStr;
@@ -144,21 +149,44 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
                 String movieIdStr = mCursor.getString(ConstantsUtils.COLUMN_MOVIE_ID);
                 String movieTitle = mCursor.getString(ConstantsUtils.COLUMN_TITLE);
+                String movieOverview = mCursor.getString(ConstantsUtils.COLUMN_OVERVIEW);
+                String movieLanguage = mCursor.getString(ConstantsUtils.COLUMN_LANGUAGE);
+                String posterPath = mCursor.getString(ConstantsUtils.COLUMN_POSTER);
+                String backdropPath = mCursor.getString(ConstantsUtils.COLUMN_BACKDROP);
+                String releaseTime = mCursor.getString(ConstantsUtils.COLUMN_DATE);
+                String voteNumber = mCursor.getString(ConstantsUtils.COLUMN_VOTENUM);
+                String voteScore = mCursor.getString(ConstantsUtils.COLUMN_VOTESCORE);
+                String moviePopularity = mCursor.getString(ConstantsUtils.COLUMN_POP);
                 String favoriteTag = mCursor.getString(ConstantsUtils.COLUMN_FAVORITE);
 
-                Log.d(LOG_TAG, "Before Click Favorite Button... favoriteTag: " + mCursor.getString(ConstantsUtils.COLUMN_FAVORITE));
+                ContentValues movieValues = new ContentValues();
 
-                Uri favoriteUri;
-                int updatedRows;
+                movieValues.put(MovieEntry.COLUMN_TITLE, movieTitle);
+                movieValues.put(MovieEntry.COLUMN_MOVIE_ID, movieIdStr);
+                movieValues.put(MovieEntry.COLUMN_OVERVIEW, movieOverview);
+                movieValues.put(MovieEntry.COLUMN_LANGUAGE, movieLanguage);
+                movieValues.put(MovieEntry.COLUMN_POSTER, posterPath);
+                movieValues.put(MovieEntry.COLUMN_BACKDROP, backdropPath);
+                movieValues.put(MovieEntry.COLUMN_DATE, releaseTime);
+                movieValues.put(MovieEntry.COLUMN_VOTENUM, voteNumber);
+                movieValues.put(MovieEntry.COLUMN_VOTESCORE, voteScore);
+                movieValues.put(MovieEntry.COLUMN_POP, moviePopularity);
 
                 if (favoriteTag == ConstantsUtils.FAVORITE_TAG){
-                    favoriteUri = MovieContract.MovieEntry.buildFavoriteMovieUri(movieIdStr, ConstantsUtils.UNFAVORITE_TAG);
+                    movieValues.put(MovieEntry.COLUMN_FAVORITE, ConstantsUtils.UNFAVORITE_TAG);
 
                 } else {
-                    favoriteUri = MovieContract.MovieEntry.buildFavoriteMovieUri(movieIdStr, ConstantsUtils.FAVORITE_TAG);
+                    movieValues.put(MovieEntry.COLUMN_FAVORITE, ConstantsUtils.FAVORITE_TAG);
                 }
 
-                updatedRows = getActivity().getContentResolver().update(favoriteUri, null, null, null);
+                //mMovieUri = MovieEntry.buildMovieUribyIdStr(movieIdStr);
+
+                Log.d(LOG_TAG, "Before Click Favorite Button... favoriteTag: " + mCursor.getString(ConstantsUtils.COLUMN_FAVORITE));
+                Log.d(LOG_TAG, "mMovieDetailUri: " + mMovieDetailUri);
+
+                int updatedRows;
+
+                updatedRows = getContext().getContentResolver().update(mMovieDetailUri, movieValues, null, null);
 
                 Log.d(LOG_TAG, "Favorite update rows: " + updatedRows);
 
@@ -316,7 +344,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     }
 
     private void onFavorite(){
-        getLoaderManager().restartLoader(DETAIL_LOADER_ID, null, this);
+        getLoaderManager().initLoader(DETAIL_LOADER_ID, null, this);
     }
 
     private void updateFavoriteLabel(String favoriteTag){
@@ -377,9 +405,16 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public void onLoadFinished(Loader<Cursor> loader, Cursor data){
 
         Log.d(LOG_TAG, "Entering onLoadFinished...");
+/*
+        if (data != null && data.moveToFirst()){
+            mCursor = data;
+        }
+        */
 
         int currLoader = loader.getId();
+
         if (currLoader == DETAIL_LOADER_ID && data.moveToFirst()){
+            mCursor = data;
             updateMovieDetailView(data);
 
         } else if (currLoader == REVIEW_LOADER_ID){

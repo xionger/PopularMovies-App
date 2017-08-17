@@ -7,6 +7,8 @@ import android.provider.BaseColumns;
 
 import com.xiongxh.popularmovies.utilities.ConstantsUtils;
 
+import static android.R.attr.id;
+
 
 public class MovieContract {
 
@@ -59,6 +61,10 @@ public class MovieContract {
 
         public static Uri buildMovieUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static Uri buildMovieUribyIdStr(String movieIdStr){
+            return CONTENT_URI.buildUpon().appendPath(movieIdStr).build();
         }
 
         public static String getMovieIdFromUri(Uri uri){
