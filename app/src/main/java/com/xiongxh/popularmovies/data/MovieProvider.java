@@ -173,10 +173,11 @@ public class MovieProvider extends ContentProvider {
 
         switch (match){
             case MOVIES: {
-                _id = db.insert(
+                _id = db.insertWithOnConflict(
                         MovieEntry.TABLE_NAME,
                         null,
-                        contentValues);
+                        contentValues,
+                        SQLiteDatabase.CONFLICT_IGNORE);
 
                 if (_id > 0){
                     returnUri = MovieEntry.buildMovieUri(_id);
@@ -216,7 +217,7 @@ public class MovieProvider extends ContentProvider {
                     db.delete(MovieEntry.TABLE_NAME, mFavoriteMoviesSelection, new String[]{ConstantsUtils.UNFAVORITE_TAG});
 
                     for(ContentValues value: contentValues){
-                        long _id = db.insert(MovieEntry.TABLE_NAME, null, value);
+                        long _id = db.insertWithOnConflict(MovieEntry.TABLE_NAME, null, value, SQLiteDatabase.CONFLICT_IGNORE);
 
                         if (_id != -1){
                             rowsInserted ++;
@@ -299,10 +300,15 @@ public class MovieProvider extends ContentProvider {
 
         switch (match){
             case MOVIES: {
+
+                //db.delete(MovieEntry.TABLE_NAME, mFavoriteMoviesSelection, new String[]{ConstantsUtils.UNFAVORITE_TAG});
+                String mSelection = mFavoriteMoviesSelection;
+                String[] mSelectionArgs = new String[]{ConstantsUtils.UNFAVORITE_TAG};
+
                 rowsDeleted = db.delete(
                         MovieEntry.TABLE_NAME,
-                        selection,
-                        selectionArgs);
+                        mSelection,
+                        mSelectionArgs);
                 break;
             }
             case MOVIE_IDX:{

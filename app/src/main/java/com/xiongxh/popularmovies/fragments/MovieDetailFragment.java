@@ -158,9 +158,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
                 ContentValues movieValues = getContentValues(mCursor);
 
-                int updatedRows;
+                 int updatedRows;
 
                 updatedRows = getContext().getContentResolver().update(mMovieDetailUri, movieValues, null, null);
+                //getContext().getContentResolver().insert(MovieEntry.CONTENT_URI, movieValues);
 
                 Log.d(LOG_TAG, "Favorite update rows: " + updatedRows);
 
@@ -421,11 +422,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public void onLoadFinished(Loader<Cursor> loader, Cursor data){
 
         Log.d(LOG_TAG, "Entering onLoadFinished...");
-/*
-        if (data != null && data.moveToFirst()){
-            mCursor = data;
-        }
-        */
+
+//        if (data != null && data.moveToFirst()){
+//            mCursor = data;
+//        }
 
         int currLoader = loader.getId();
 
@@ -452,7 +452,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             Log.d(LOG_TAG, "Inside onLoadFinished... videos");
             mMovieTrailersAdapter.swapCursor(data);
         }
-
 
     }
 
