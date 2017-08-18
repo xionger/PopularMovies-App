@@ -140,7 +140,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             @Override
             public void onClick(View view){
 
-                Toast.makeText(getActivity(), "favorite button is clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "favorite button is clicked", Toast.LENGTH_SHORT).show();
 
                 if (mCursor == null || !mCursor.moveToFirst()){
                     Log.d(LOG_TAG, "Favorite click null");
@@ -149,40 +149,14 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
                 String movieIdStr = mCursor.getString(ConstantsUtils.COLUMN_MOVIE_ID);
                 String movieTitle = mCursor.getString(ConstantsUtils.COLUMN_TITLE);
-                String movieOverview = mCursor.getString(ConstantsUtils.COLUMN_OVERVIEW);
-                String movieLanguage = mCursor.getString(ConstantsUtils.COLUMN_LANGUAGE);
-                String posterPath = mCursor.getString(ConstantsUtils.COLUMN_POSTER);
-                String backdropPath = mCursor.getString(ConstantsUtils.COLUMN_BACKDROP);
-                String releaseTime = mCursor.getString(ConstantsUtils.COLUMN_DATE);
-                String voteNumber = mCursor.getString(ConstantsUtils.COLUMN_VOTENUM);
-                String voteScore = mCursor.getString(ConstantsUtils.COLUMN_VOTESCORE);
-                String moviePopularity = mCursor.getString(ConstantsUtils.COLUMN_POP);
                 String favoriteTag = mCursor.getString(ConstantsUtils.COLUMN_FAVORITE);
-
-                ContentValues movieValues = new ContentValues();
-
-                movieValues.put(MovieEntry.COLUMN_TITLE, movieTitle);
-                movieValues.put(MovieEntry.COLUMN_MOVIE_ID, movieIdStr);
-                movieValues.put(MovieEntry.COLUMN_OVERVIEW, movieOverview);
-                movieValues.put(MovieEntry.COLUMN_LANGUAGE, movieLanguage);
-                movieValues.put(MovieEntry.COLUMN_POSTER, posterPath);
-                movieValues.put(MovieEntry.COLUMN_BACKDROP, backdropPath);
-                movieValues.put(MovieEntry.COLUMN_DATE, releaseTime);
-                movieValues.put(MovieEntry.COLUMN_VOTENUM, voteNumber);
-                movieValues.put(MovieEntry.COLUMN_VOTESCORE, voteScore);
-                movieValues.put(MovieEntry.COLUMN_POP, moviePopularity);
-
-                if (favoriteTag == ConstantsUtils.FAVORITE_TAG){
-                    movieValues.put(MovieEntry.COLUMN_FAVORITE, ConstantsUtils.UNFAVORITE_TAG);
-
-                } else {
-                    movieValues.put(MovieEntry.COLUMN_FAVORITE, ConstantsUtils.FAVORITE_TAG);
-                }
 
                 //mMovieUri = MovieEntry.buildMovieUribyIdStr(movieIdStr);
 
                 Log.d(LOG_TAG, "Before Click Favorite Button... favoriteTag: " + mCursor.getString(ConstantsUtils.COLUMN_FAVORITE));
                 Log.d(LOG_TAG, "mMovieDetailUri: " + mMovieDetailUri);
+
+                ContentValues movieValues = getContentValues(mCursor);
 
                 int updatedRows;
 
@@ -192,9 +166,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
                 if (updatedRows == 1){
                     MoviePreferences.updateFavoriteMessage(favoriteTag, movieTitle, getContext());
+                    Log.d(LOG_TAG, "Before onFavorite()... favoriteTag: " + mCursor.getString(ConstantsUtils.COLUMN_FAVORITE));
                     onFavorite();
 
-                    Log.d(LOG_TAG, "After onFavorite... favoriteTag: " + mCursor.getString(ConstantsUtils.COLUMN_FAVORITE));
+                    Log.d(LOG_TAG, "After onFavorite()... favoriteTag: " + mCursor.getString(ConstantsUtils.COLUMN_FAVORITE));
                 }
 
             }
@@ -220,7 +195,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         RecyclerView movieTrailerRecycleView = (RecyclerView) rootView.findViewById(R.id.rv_movie_trailers);
         movieTrailerRecycleView.setLayoutManager(trailerLayoutManager);
 
-        Log.d(LOG_TAG, "Before trailer callback");
+        //Log.d(LOG_TAG, "Before trailer callback");
 
         mMovieTrailersAdapter = new MovieTrailersAdapter(getActivity(), new MovieTrailersAdapter.MovieTrailerAdapterOnClickHandler() {
             @Override
@@ -231,13 +206,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             }
         });
 
-        Log.d(LOG_TAG, "Trailer adapter count: " + mMovieTrailersAdapter.getItemCount());
-        Log.d(LOG_TAG, "After trailer callback");
+        //Log.d(LOG_TAG, "Trailer adapter count: " + mMovieTrailersAdapter.getItemCount());
+        //Log.d(LOG_TAG, "After trailer callback");
 
         movieTrailerRecycleView.setAdapter(mMovieTrailersAdapter);
 
-        Log.d(LOG_TAG, "Trailer adapter count: " + mMovieTrailersAdapter.getItemCount());
-        Log.d(LOG_TAG, "Exiting onCreated method.");
+        //Log.d(LOG_TAG, "Trailer adapter count: " + mMovieTrailersAdapter.getItemCount());
+        //Log.d(LOG_TAG, "Exiting onCreated method.");
 
         return rootView;
     }
@@ -284,6 +259,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mMovieOverview.setText(movieOverview);
 
         String favoriteTag = cursor.getString(ConstantsUtils.COLUMN_FAVORITE);
+
+        Log.d(LOG_TAG, "Inside updateDetailView, before updateFavorite label... favoriteTag: " + favoriteTag);
 
         updateFavoriteLabel(favoriteTag);
 
@@ -341,6 +318,45 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
         loaderManager.initLoader(VIDEO_LOADER_ID, null, this);
         Log.d(LOG_TAG, "After loading videos... MovieId: " + currentMovieIdStr);
+    }
+
+    private ContentValues getContentValues(Cursor cursor){
+
+        String movieIdStr = cursor.getString(ConstantsUtils.COLUMN_MOVIE_ID);
+        String movieTitle = cursor.getString(ConstantsUtils.COLUMN_TITLE);
+        String movieOverview = cursor.getString(ConstantsUtils.COLUMN_OVERVIEW);
+        String movieLanguage = cursor.getString(ConstantsUtils.COLUMN_LANGUAGE);
+        String posterPath = cursor.getString(ConstantsUtils.COLUMN_POSTER);
+        String backdropPath = cursor.getString(ConstantsUtils.COLUMN_BACKDROP);
+        String releaseTime = cursor.getString(ConstantsUtils.COLUMN_DATE);
+        String voteNumber = cursor.getString(ConstantsUtils.COLUMN_VOTENUM);
+        String voteScore = cursor.getString(ConstantsUtils.COLUMN_VOTESCORE);
+        String moviePopularity = cursor.getString(ConstantsUtils.COLUMN_POP);
+        String favoriteTag = cursor.getString(ConstantsUtils.COLUMN_FAVORITE);
+
+        ContentValues movieValues = new ContentValues();
+
+        movieValues.put(MovieEntry.COLUMN_TITLE, movieTitle);
+        movieValues.put(MovieEntry.COLUMN_MOVIE_ID, movieIdStr);
+        movieValues.put(MovieEntry.COLUMN_OVERVIEW, movieOverview);
+        movieValues.put(MovieEntry.COLUMN_LANGUAGE, movieLanguage);
+        movieValues.put(MovieEntry.COLUMN_POSTER, posterPath);
+        movieValues.put(MovieEntry.COLUMN_BACKDROP, backdropPath);
+        movieValues.put(MovieEntry.COLUMN_DATE, releaseTime);
+        movieValues.put(MovieEntry.COLUMN_VOTENUM, voteNumber);
+        movieValues.put(MovieEntry.COLUMN_VOTESCORE, voteScore);
+        movieValues.put(MovieEntry.COLUMN_POP, moviePopularity);
+
+        if (favoriteTag.equals(ConstantsUtils.FAVORITE_TAG)){
+            Log.d(LOG_TAG, "Change to unfavorite");
+            movieValues.put(MovieEntry.COLUMN_FAVORITE, ConstantsUtils.UNFAVORITE_TAG);
+
+        } else {
+            Log.d(LOG_TAG, "Change to favorite");
+            movieValues.put(MovieEntry.COLUMN_FAVORITE, ConstantsUtils.FAVORITE_TAG);
+        }
+
+        return movieValues;
     }
 
     private void onFavorite(){

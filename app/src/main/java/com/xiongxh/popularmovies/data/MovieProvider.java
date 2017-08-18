@@ -31,9 +31,6 @@ public class MovieProvider extends ContentProvider {
     private static final int VIDEOS = 300;
     private static final int VIDEO_IDX = 301;
 
-    private static final int FAVORITES = 400;
-    private static final int FAVORITE_IDX = 401;
-
     private static final String mMovieIdSelection =
             MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_MOVIE_ID + "=?";
 
@@ -44,9 +41,6 @@ public class MovieProvider extends ContentProvider {
 
     private static final String mFavoriteMoviesSelection =
             MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_FAVORITE + "=?";
-    private static final String mNotFavoriteMovesSelection =
-            MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_FAVORITE + "!=? OR " +
-                    MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_FAVORITE + " IS NULL";
 
 
     public static UriMatcher buildUriMatcher(){
@@ -62,9 +56,6 @@ public class MovieProvider extends ContentProvider {
 
         matcher.addURI(authority, MovieContract.PATH_VIDEOS, VIDEOS);
         matcher.addURI(authority, MovieContract.PATH_VIDEOS + "/#", VIDEO_IDX);
-
-        matcher.addURI(authority, MovieContract.PATH_MOVIES + "/" + MovieContract.PATH_FAVORITE, FAVORITES);
-        matcher.addURI(authority, MovieContract.PATH_MOVIES + "/" + MovieContract.PATH_FAVORITE + "/#", FAVORITE_IDX);
 
         return matcher;
     }
@@ -157,20 +148,6 @@ public class MovieProvider extends ContentProvider {
                 break;
 
             }
-            case FAVORITES: {
-                String[] mSelectionArgs = new String[]{ConstantsUtils.FAVORITE_TAG};
-
-                returnCursor = db.query(
-                        MovieEntry.TABLE_NAME,
-                        projection,
-                        mFavoriteMoviesSelection,
-                        mSelectionArgs,
-                        null,
-                        null,
-                        null);
-
-                break;
-            }
 
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -236,7 +213,7 @@ public class MovieProvider extends ContentProvider {
 
                 try{
 
-                    db.delete(MovieEntry.TABLE_NAME, mNotFavoriteMovesSelection, new String[]{ConstantsUtils.FAVORITE_TAG});
+                    db.delete(MovieEntry.TABLE_NAME, mFavoriteMoviesSelection, new String[]{ConstantsUtils.UNFAVORITE_TAG});
 
                     for(ContentValues value: contentValues){
                         long _id = db.insert(MovieEntry.TABLE_NAME, null, value);
@@ -405,7 +382,7 @@ public class MovieProvider extends ContentProvider {
                 Log.d(LOG_TAG, "update matching MOVIE_IDX");
                 String movieIndexStr = uri.getPathSegments().get(1);
                 Log.d(LOG_TAG, "update movieIndexStr: " + movieIndexStr);
-                //String mSelection = "_id=?";
+
                 //String mSelection = mMovieIdSelection;
                 String mSelection = MovieEntry.TABLE_NAME + "." + MovieEntry._ID + "=?";
                 String[] mSelectionArgs = new String[]{movieIndexStr};
@@ -415,22 +392,6 @@ public class MovieProvider extends ContentProvider {
                         contentValues,
                         mSelection,
                         mSelectionArgs);
-                break;
-            }
-            case FAVORITE_IDX: {
-                String movieIdexStr = uri.getPathSegments().get(2);
-                String[] mSelectionArgs = new String[]{movieIdexStr};
-
-                String favoriteTag = uri.getQueryParameter(MovieEntry.COLUMN_FAVORITE);
-
-                ContentValues cvs = new ContentValues();
-                cvs.put(MovieEntry.COLUMN_FAVORITE, favoriteTag);
-
-                rowsUpdated = db.update(MovieEntry.TABLE_NAME,
-                        contentValues,
-                        mFavoriteMoviesSelection,
-                        mSelectionArgs);
-
                 break;
             }
 
@@ -472,12 +433,6 @@ public class MovieProvider extends ContentProvider {
             }
             case VIDEO_IDX:{
                 return VideosEntry.CONTENT_TYPE;
-            }
-            case FAVORITES:{
-                return MovieEntry.CONTENT_TYPE;
-            }
-            case FAVORITE_IDX:{
-                return MovieEntry.CONTENT_ITEM_TYPE;
             }
 
             default:{

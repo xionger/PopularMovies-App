@@ -11,7 +11,7 @@ import com.xiongxh.popularmovies.data.MovieContract.VideosEntry;
 
 
 public class MovieDbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
 
     static final String DATABASE_NAME = "popmovies.db";
 
@@ -35,7 +35,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 MovieEntry.COLUMN_VOTESCORE + " REAL, " +
                 MovieEntry.COLUMN_VOTENUM + " INTEGER, " +
                 MovieEntry.COLUMN_FAVORITE + " TEXT, " +
-                " UNIQUE (" + MovieEntry.COLUMN_MOVIE_ID + ") ON CONFLICT REPLACE);";
+                " UNIQUE (" + MovieEntry.COLUMN_MOVIE_ID + ") ON CONFLICT IGNORE);";
 
         final String SQL_CREATE_REVIEWS_TABLE = "CREATE TABLE " + ReviewsEntry.TABLE_NAME + " (" +
                 ReviewsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
