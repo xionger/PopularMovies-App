@@ -8,12 +8,14 @@
     <string name="sorting_key" translatable="false">Sorting</string>
     <string name="sorting_by_pop">Most Popular</string>
     <string name="sorting_by_rate">Highest rated</string>
+    <string name="sorting_by_favorite">Favorite</string>
     <!--
     <string name="sorting_by_pop_value">popularity.desc</string>
     <string name="sorting_by_rate_value">vote_average.desc</string>
     -->
     <string name="sorting_by_pop_value">popular</string>
     <string name="sorting_by_rate_value">top_rated</string>
+    <string name="sorting_by_favorite_value">favorite</string>
 
     <string name="category_settings">General Settings</string>
     <string name="category_settings_key">General</string>

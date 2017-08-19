@@ -10,12 +10,15 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
+import android.util.Log;
 
 import com.xiongxh.popularmovies.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements OnSharedPreferenceChangeListener {
+    private static final String LOG_TAG = SettingsFragment.class.getName();
 
     public static boolean mPreferenceChanged = false;
+    public static String mPreferenceValue;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -53,6 +56,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements OnShar
                 setPreferenceSummary(preference, value);
 
                 mPreferenceChanged = true;
+
+                mPreferenceValue = value;
+
+                Log.d(LOG_TAG, "----------------------preference value" + value);
             }
         }
     }

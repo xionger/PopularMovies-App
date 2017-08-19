@@ -3,10 +3,12 @@
     <string-array name="sorting_entries">
         <item>@string/sorting_by_pop</item>
         <item>@string/sorting_by_rate</item>
+        <item>@string/sorting_by_favorite</item>
     </string-array>
     <string-array name="sorting_entries_values">
         <item>@string/sorting_by_pop_value</item>
         <item>@string/sorting_by_rate_value</item>
+        <item>@string/sorting_by_favorite_value</item>
     </string-array>
 
 </resources>

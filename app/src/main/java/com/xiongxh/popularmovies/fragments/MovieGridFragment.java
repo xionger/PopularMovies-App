@@ -24,6 +24,7 @@ import com.xiongxh.popularmovies.R;
 import com.xiongxh.popularmovies.SettingsActivity;
 import com.xiongxh.popularmovies.adapters.MovieAdapter;
 import com.xiongxh.popularmovies.data.MovieContract;
+import com.xiongxh.popularmovies.data.MovieContract.MovieEntry;
 import com.xiongxh.popularmovies.utilities.ConstantsUtils;
 import com.xiongxh.popularmovies.sync.MovieSyncUtils;
 import com.xiongxh.popularmovies.utilities.FakeMovieUtils;
@@ -114,7 +115,30 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
         Log.d(LOG_TAG, "onCreateLoader starts with id: " + id);
         switch (id){
             case LOADER_ID: {
-                //String sortOrder = MovieContract.MovieEntry.COLUMN_POP + " DESC";
+
+                String sortOrder = null;
+
+                if (SettingsFragment.mPreferenceValue != null) {
+                    if (SettingsFragment.mPreferenceValue.equals("popular")) {
+                        sortOrder = MovieContract.MovieEntry.COLUMN_POP + " DESC";
+                    } else if (SettingsFragment.mPreferenceValue.equals("top_rated")) {
+                        sortOrder = MovieContract.MovieEntry.COLUMN_VOTESCORE + " DESC";
+                    } else if (SettingsFragment.mPreferenceValue.equals("favorite")) {
+                        String mSelection = MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_FAVORITE + "=?";
+                        String[] mSelectionArgs = new String[]{ConstantsUtils.FAVORITE_TAG};
+
+                        return new CursorLoader(
+                                getActivity(),
+                                MovieContract.MovieEntry.CONTENT_URI,
+                                ConstantsUtils.MOVIE_COLUMNS,
+                                mSelection,
+                                mSelectionArgs,
+                                sortOrder);
+                    }
+
+                } else {
+                    sortOrder = MovieContract.MovieEntry.COLUMN_POP + " DESC";
+                }
 
                 return new CursorLoader(
                         getActivity(),
@@ -122,8 +146,8 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
                         ConstantsUtils.MOVIE_COLUMNS,
                         null,
                         null,
-                        //sortOrder);
-                        null);
+                        sortOrder);
+                        //null);
             }
             default:{
                 throw  new RuntimeException("Loader not implemented: " + id);
