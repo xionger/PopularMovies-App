@@ -3,8 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp">
 
+    <!--
     <TextView
         android:id="@+id/tv_movie_trailer_id"
         android:layout_width="match_parent"
@@ -19,10 +21,28 @@
         android:id="@+id/tv_movie_trailer_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    -->
 
-    <ImageView
-        android:id="@+id/iv_movie_trailer_thum"
+    <TextView
+        android:id="@+id/tv_movie_trailer_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/iv_movie_trailer_thum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBlack"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_play_48"/>
+    </FrameLayout>
+
 
 </LinearLayout>

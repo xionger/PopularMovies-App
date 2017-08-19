@@ -121,6 +121,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         movieViewHolder.moviePosterView.setAdjustViewBounds(true);
 
+        String isFavorite = mCursor.getString(ConstantsUtils.COLUMN_FAVORITE);
+
+        if (isFavorite.equals(ConstantsUtils.FAVORITE_TAG)){
+            movieViewHolder.mFavoriteHeart.setVisibility(View.VISIBLE);
+        } else {
+            movieViewHolder.mFavoriteHeart.setVisibility(View.GONE);
+        }
+
         String movieVote = mCursor.getString(ConstantsUtils.COLUMN_VOTESCORE);
 
         movieViewHolder.mMovieVoteView.setText(movieVote);
@@ -180,6 +188,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         @BindView(R.id.tv_movie_vote) TextView mMovieVoteView;
         @BindView(R.id.iv_movie_poster) ImageView moviePosterView;
         @BindView(R.id.card_view) CardView mCardView;
+        @BindView(R.id.iv_favorite_heart) ImageView mFavoriteHeart;
 
         @BindViews({R.id.voting_first_star, R.id.voting_second_star, R.id.voting_third_star, R.id.voting_fourth_star, R.id.voting_fifth_star})
         List<ImageView> mVoteStarsView;

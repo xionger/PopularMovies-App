@@ -23,6 +23,9 @@ import com.xiongxh.popularmovies.utilities.ConstantsUtils;
 
 import org.w3c.dom.Text;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.R.attr.start;
 
 public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdapter.TrailerViewHolder> {
@@ -79,15 +82,10 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
 
         mCursor.moveToPosition(position);
 
-        String trailerId = mCursor.getString(ConstantsUtils.COLUMN_VIDEO_ID);
-        trailerHolder.mTrailerIdView.setText(trailerId);
+        String trailerTitle = mCursor.getString(ConstantsUtils.COLUMN_VIDEO_NAME);
+        trailerHolder.mTrailerTitleView.setText(trailerTitle);
 
         String trailerKey = mCursor.getString(ConstantsUtils.COLUMN_VIDEO_KEY);
-        trailerHolder.mTrailerKeyView.setText(trailerKey);
-
-        String trailerType = mCursor.getString(ConstantsUtils.COLUMN_VIDEO_TYPE);
-        trailerHolder.mTrailerTypeView.setText(trailerType);
-
         String thumbnailUrl = BASE_YOUTUBE_THUMBNAIL_URL + trailerKey + YOUTUBE_THUMBNAIL_SUFFIX;
         Log.d(TAG, "trailer youtube thumbnail url: " + thumbnailUrl);
 
@@ -117,18 +115,23 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
     public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public final View mView;
 
-        private TextView mTrailerIdView;
-        private TextView mTrailerKeyView;
-        private TextView mTrailerTypeView;
-        private ImageView mTrailerThumbnailView;
+        @BindView(R.id.tv_movie_trailer_title) TextView mTrailerTitleView;
+        @BindView(R.id.iv_movie_trailer_thum) ImageView mTrailerThumbnailView;
+
+//        private TextView mTrailerIdView;
+//        private TextView mTrailerKeyView;
+//        private TextView mTrailerTypeView;
+//        private ImageView mTrailerThumbnailView;
 
         public TrailerViewHolder(View itemView){
             super(itemView);
 
-            mTrailerIdView = (TextView) itemView.findViewById(R.id.tv_movie_trailer_id);
-            mTrailerKeyView = (TextView) itemView.findViewById(R.id.tv_movie_trailer_key);
-            mTrailerTypeView = (TextView) itemView.findViewById(R.id.tv_movie_trailer_type);
-            mTrailerThumbnailView = (ImageView) itemView.findViewById(R.id.iv_movie_trailer_thum);
+            ButterKnife.bind(this, itemView);
+
+//            mTrailerIdView = (TextView) itemView.findViewById(R.id.tv_movie_trailer_id);
+//            mTrailerKeyView = (TextView) itemView.findViewById(R.id.tv_movie_trailer_key);
+//            mTrailerTypeView = (TextView) itemView.findViewById(R.id.tv_movie_trailer_type);
+//            mTrailerThumbnailView = (ImageView) itemView.findViewById(R.id.iv_movie_trailer_thum);
 
             mView = itemView;
 
