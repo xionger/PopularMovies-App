@@ -3,6 +3,7 @@ package com.xiongxh.popularmovies.fragments;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -242,9 +244,15 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         });
 
 
-        LinearLayoutManager trailerLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        //LinearLayoutManager trailerLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         RecyclerView movieTrailerRecycleView = (RecyclerView) rootView.findViewById(R.id.rv_movie_trailers);
-        movieTrailerRecycleView.setLayoutManager(trailerLayoutManager);
+        //movieTrailerRecycleView.setLayoutManager(trailerLayoutManager);
+
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            movieTrailerRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        } else {
+            movieTrailerRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        }
 
         //Log.d(LOG_TAG, "Before trailer callback");
 

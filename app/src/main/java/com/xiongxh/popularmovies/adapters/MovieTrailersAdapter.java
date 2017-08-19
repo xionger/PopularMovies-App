@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -115,6 +116,8 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
     public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public final View mView;
 
+        @BindView(R.id.card_view_trailer) CardView mTrailerCardView;
+
         @BindView(R.id.tv_movie_trailer_title) TextView mTrailerTitleView;
         @BindView(R.id.iv_movie_trailer_thum) ImageView mTrailerThumbnailView;
 
@@ -136,7 +139,7 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
             mView = itemView;
 
             itemView.setClickable(true);
-            itemView.setOnClickListener(this);
+            mTrailerCardView.setOnClickListener(this);
         }
 
         @Override

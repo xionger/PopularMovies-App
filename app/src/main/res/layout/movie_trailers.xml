@@ -25,7 +25,8 @@
         android:id="@+id/tv_trailers_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No trailers"
+        android:text="Sorry! No trailers."
+        android:layout_gravity="center"
         android:visibility="visible"/>
 
 </LinearLayout>

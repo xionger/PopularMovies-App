@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/card_view_trailer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp">
+    card_view:contentPaddingLeft="5dp"
+    card_view:contentPaddingRight="5dp">
 
-    <!--
-    <TextView
-        android:id="@+id/tv_movie_trailer_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/tv_movie_trailer_key"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/tv_movie_trailer_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    -->
-
-    <TextView
-        android:id="@+id/tv_movie_trailer_title"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"/>
+        android:layout_marginBottom="5dp">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/iv_movie_trailer_thum"
+        <!--
+        <TextView
+            android:id="@+id/tv_movie_trailer_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_movie_trailer_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_movie_trailer_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        -->
+
+        <TextView
+            android:id="@+id/tv_movie_trailer_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorBlack"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/icon_play_48"/>
-    </FrameLayout>
+            android:gravity="center"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_movie_trailer_thum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBlack"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_play_48"/>
+        </FrameLayout>
 
 
-</LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

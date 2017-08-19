@@ -25,7 +25,8 @@
         android:id="@+id/tv_reviews_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No reviews"
+        android:text="Sorry! No reviews."
+        android:layout_gravity="center"
         android:visibility="visible"/>
 
 </LinearLayout>

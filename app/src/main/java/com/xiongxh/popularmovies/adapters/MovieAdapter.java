@@ -185,9 +185,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
      */
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        @BindView(R.id.card_view) CardView mCardView;
+
         @BindView(R.id.tv_movie_vote) TextView mMovieVoteView;
         @BindView(R.id.iv_movie_poster) ImageView moviePosterView;
-        @BindView(R.id.card_view) CardView mCardView;
         @BindView(R.id.iv_favorite_heart) ImageView mFavoriteHeart;
 
         @BindViews({R.id.voting_first_star, R.id.voting_second_star, R.id.voting_third_star, R.id.voting_fourth_star, R.id.voting_fifth_star})
