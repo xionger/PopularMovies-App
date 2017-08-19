@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_trailers"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone">
+
+    <Button
+        android:id="@+id/button_hide_trailers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="hideTrailers"
+        android:text="Hide Trailers"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_movie_trailers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app.layoutManager = "LinearLayoutManager"
+        tools:listItems="@layout/list_item_trailer" />
+
+    <TextView
+        android:id="@+id/tv_trailers_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No trailers"
+        android:visibility="visible"/>
+
+</LinearLayout>

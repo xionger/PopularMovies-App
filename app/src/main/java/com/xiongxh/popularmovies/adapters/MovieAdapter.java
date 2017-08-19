@@ -19,6 +19,7 @@ import com.xiongxh.popularmovies.fragments.MovieGridFragment;
 import com.xiongxh.popularmovies.utilities.NetworkUtils;
 import com.xiongxh.popularmovies.utilities.ConstantsUtils;
 
+import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 
@@ -176,15 +177,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
      */
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        // Will display the position in the list, ie 0 through getItemCount() - 1
-        //final TextView movieTitleView;
-        final TextView mMovieVoteView;
-        //final TextView mMoviePopularView;
-
-        // Will display which ViewHolder is displaying this data
-        final ImageView moviePosterView;
-
-        final CardView mCardView;
+        @BindView(R.id.tv_movie_vote) TextView mMovieVoteView;
+        @BindView(R.id.iv_movie_poster) ImageView moviePosterView;
+        @BindView(R.id.card_view) CardView mCardView;
 
         @BindViews({R.id.voting_first_star, R.id.voting_second_star, R.id.voting_third_star, R.id.voting_fourth_star, R.id.voting_fifth_star})
         List<ImageView> mVoteStarsView;
@@ -200,19 +195,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             super(itemView);
 
             ButterKnife.bind(this, itemView);
-
-            //movieTitleView = (TextView) itemView.findViewById(R.id.tv_movie_title);
-
-            mMovieVoteView = (TextView) itemView.findViewById(R.id.tv_movie_vote);
-
-            //mMoviePopularView = (TextView) itemView.findViewById(R.id.tv_movie_popular);
-
-            // Use itemView.findViewById to get a reference to tv_view_holder_instance
-            moviePosterView = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
-
-            //ButterKnife.apply(mVoteStarsView);
-
-            mCardView = (CardView) itemView.findViewById(R.id.card_view);
 
             itemView.setOnClickListener(this);
             mCardView.setOnClickListener(this);

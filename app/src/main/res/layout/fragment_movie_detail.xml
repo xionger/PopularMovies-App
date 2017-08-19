@@ -82,50 +82,25 @@
             android:layout_height="wrap_content"
             android:padding="10dp"/>
 
-        <!--
         <Button
             android:id="@+id/button_read_reviews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="showReviews"
-            android:text="Read Reviews"/>
+            android:text="Read Reviews"
+            android:visibility="visible"/>
 
+        <include layout="@layout/movie_reviews" />
 
         <Button
             android:id="@+id/button_watch_trailers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="showTrailers"
-            android:text="Watch Trailers"/>
-        -->
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_movie_reviews"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app.layoutManager = "LinearLayoutManager"
-            tools:listitem="@layout/list_item_review" />
-
-        <TextView
-            android:id="@+id/tv_reviews_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No reviews"
+            android:text="Watch Trailers"
             android:visibility="visible"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_movie_trailers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app.layoutManager = "LinearLayoutManager"
-            tools:listItems="@layout/list_item_trailer" />
-
-        <TextView
-            android:id="@+id/tv_trailers_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No trailers"
-            android:visibility="visible"/>
+        <include layout="@layout/movie_trailers" />
 
     </LinearLayout>
 

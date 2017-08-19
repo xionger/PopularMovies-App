@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_reviews"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone">
+
+    <Button
+        android:id="@+id/button_hide_reviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="hideReviews"
+        android:text="Hide Reviews"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_movie_reviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app.layoutManager = "LinearLayoutManager"
+        tools:listitem="@layout/list_item_review" />
+
+    <TextView
+        android:id="@+id/tv_reviews_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No reviews"
+        android:visibility="visible"/>
+
+</LinearLayout>

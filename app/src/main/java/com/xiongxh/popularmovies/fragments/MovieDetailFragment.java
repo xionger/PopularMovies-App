@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -91,13 +92,15 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @BindView(R.id.tv_movie_overview) TextView mMovieOverview;
     @BindView(R.id.btn_favorite) ImageButton mFavoriteButton;
 
-    //@BindView(R.id.button_read_reviews) Button mReviewButton;
+    @BindView(R.id.button_read_reviews) Button mReadReviewButton;
+    @BindView(R.id.button_hide_reviews) Button mHideReviewButton;
 
     //@BindView(R.id.lv_movie_trailers) ListView mMovieTrailersView;
     @BindView(R.id.tv_trailers_empty) TextView mTrailersEmptyView;
     @BindView(R.id.tv_reviews_empty) TextView mReviewsEmptyView;
 
-    // @BindView(R.id.button_watch_trailers) Button mTrailerButton;
+    @BindView(R.id.button_watch_trailers) Button mWatchTrailerButton;
+    @BindView(R.id.button_hide_trailers) Button mHideTrailerButton;
 
     private ListView mReviewsView;
 
@@ -176,6 +179,30 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             }
         });
 
+        final LinearLayout reviewLayout = (LinearLayout)rootView.findViewById(R.id.movie_reviews);
+
+        mReadReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (reviewLayout.getVisibility() == View.GONE){
+                    reviewLayout.setVisibility(View.VISIBLE);
+                }
+
+                mReadReviewButton.setVisibility(View.GONE);
+            }
+        });
+
+        mHideReviewButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                mReadReviewButton.setVisibility(View.VISIBLE);
+
+                if (reviewLayout.getVisibility() == View.VISIBLE){
+                    reviewLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+
         //mReviewsView = (ListView) rootView.findViewById(R.id.lv_movie_reviews);
 
         //mReviewButton = (Button) rootView.findViewById(R.id.button_read_reviews);
@@ -189,7 +216,30 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
         movieReviewRecycleView.setAdapter(mMovieReviewsAdapter);
 
-        //mTrailerButton = (Button) rootView.findViewById(R.id.button_watch_trailers);
+
+        final LinearLayout trailerLayout = (LinearLayout) rootView.findViewById(R.id.movie_trailers);
+
+        mWatchTrailerButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if (trailerLayout.getVisibility() == View.GONE){
+                    trailerLayout.setVisibility(View.VISIBLE);
+                }
+
+                mWatchTrailerButton.setVisibility(View.GONE);
+            }
+        });
+
+        mHideTrailerButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                mWatchTrailerButton.setVisibility(View.VISIBLE);
+
+                if (trailerLayout.getVisibility() == View.VISIBLE){
+                    trailerLayout.setVisibility(View.GONE);
+                }
+            }
+        });
 
 
         LinearLayoutManager trailerLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
