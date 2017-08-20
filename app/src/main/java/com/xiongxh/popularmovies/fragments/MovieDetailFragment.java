@@ -434,6 +434,11 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle loaderArgs){
         Log.d(LOG_TAG, "Entering onCreateLoader(), mMovieUri: " + mMovieDetailUri);
 
+        Intent intent = getActivity().getIntent();
+        if (intent == null || intent.getData() == null){
+            return null;
+        }
+
         switch (loaderId){
             case DETAIL_LOADER_ID:{
                 return new CursorLoader(

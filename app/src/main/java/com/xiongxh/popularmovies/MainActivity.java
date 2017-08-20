@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.StrictMode;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
@@ -23,6 +24,7 @@ import static com.xiongxh.popularmovies.data.MovieProvider.LOG_TAG;
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener, MovieGridFragment.Callback {
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+
     private static final String MOVIEDETAILFRAGMENT = "MOVIEDETAILGRAGMENT";
 
     private boolean mTwoPane;
@@ -40,11 +42,13 @@ public class MainActivity extends AppCompatActivity
 
             if (savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.movie_detail_container, new MovieGridFragment(), MOVIEDETAILFRAGMENT)
+                        //.replace(R.id.movie_detail_container, new MovieGridFragment(), MOVIEDETAILFRAGMENT)
+                        .replace(R.id.movie_detail_container, new MovieDetailFragment(), MOVIEDETAILFRAGMENT)
                         .commit();
-            }else{
-                mTwoPane = false;
             }
+
+        }else{
+            mTwoPane = false;
         }
 
         setupSharedPreferences();
@@ -71,6 +75,7 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.movie_detail_container, movieDetailFragment, MOVIEDETAILFRAGMENT)
                     .commit();
             Log.d(LOG_TAG, "Exit onItemSelected if block.");
+
         }else {
             Intent movieDetailIntent = new Intent(this, MovieDetailActivity.class)
                 .setData(movieUri);

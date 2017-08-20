@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -35,6 +37,9 @@ import java.util.Vector;
 public class MovieGridFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = MovieGridFragment.class.getName();
+
+    private static final String SELECTED_KEY = "selected_position";
+
     private static final int NUM_LIST_ITEMS = 100;
     private static final int LOADER_ID = 0;
 
@@ -56,9 +61,10 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         Log.d(LOG_TAG, "MoviesGridFragment starts!");
-        super.onActivityCreated(savedInstanceState);
+
         //FakeMovieUtils.insertFakeData(getActivity());
         getLoaderManager().initLoader(LOADER_ID, null, this);
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -106,9 +112,22 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
 
         mMoviesRecyclerView.setAdapter(mMovieAdapter);
 
+        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)){
+            mPosition = savedInstanceState.getInt(SELECTED_KEY);
+        }
+
         Log.d(LOG_TAG, "onCreateView returning.");
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        if (mPosition != ListView.INVALID_POSITION){
+            outState.putInt(SELECTED_KEY, mPosition);
+        }
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override

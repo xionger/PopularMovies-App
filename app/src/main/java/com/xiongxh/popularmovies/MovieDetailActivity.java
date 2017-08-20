@@ -17,6 +17,8 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
     public static final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
 
+    private static final String MOVIEDETAILFRAGMENT = "MOVIEDETAILGRAGMENT";
+
     private Uri mMovieDetailUri = null;
     private Uri mMovieReviewUri = null;
 
@@ -36,8 +38,6 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
             argsDetail.putParcelable(MovieDetailFragment.DEFAULT_MOVIE_URI, mMovieDetailUri);
 
-//            args.putParcelable(MovieDetailFragment.DEFAULT_MOVIE_URI,
-//                    getIntent().getParcelableExtra(MovieDetailFragment.DEFAULT_MOVIE_URI));
 
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
             movieDetailFragment.setArguments(argsDetail);
