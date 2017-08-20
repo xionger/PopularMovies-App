@@ -113,6 +113,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
+        MovieSyncUtils.startImmediateSync(this);
     }
 }

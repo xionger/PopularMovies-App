@@ -6,6 +6,6 @@
             android:entries="@array/sorting_entries"
             android:entryValues="@array/sorting_entries_values"
             android:key="@string/sorting_key"
-            android:title="Movie Sorting" />
+            android:title="Select Movies" />
 
 </PreferenceScreen>

@@ -25,6 +25,7 @@ import com.xiongxh.popularmovies.SettingsActivity;
 import com.xiongxh.popularmovies.adapters.MovieAdapter;
 import com.xiongxh.popularmovies.data.MovieContract;
 import com.xiongxh.popularmovies.data.MovieContract.MovieEntry;
+import com.xiongxh.popularmovies.data.MoviePreferences;
 import com.xiongxh.popularmovies.utilities.ConstantsUtils;
 import com.xiongxh.popularmovies.sync.MovieSyncUtils;
 import com.xiongxh.popularmovies.utilities.FakeMovieUtils;
@@ -118,26 +119,25 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
 
                 String sortOrder = null;
 
-                if (SettingsFragment.mPreferenceValue != null) {
-                    if (SettingsFragment.mPreferenceValue.equals("popular")) {
-                        sortOrder = MovieContract.MovieEntry.COLUMN_POP + " DESC";
-                    } else if (SettingsFragment.mPreferenceValue.equals("top_rated")) {
-                        sortOrder = MovieContract.MovieEntry.COLUMN_VOTESCORE + " DESC";
-                    } else if (SettingsFragment.mPreferenceValue.equals("favorite")) {
-                        String mSelection = MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_FAVORITE + "=?";
-                        String[] mSelectionArgs = new String[]{ConstantsUtils.FAVORITE_TAG};
+                if (MoviePreferences.getPreferredSortType(getContext()).equals("popular")) {
+                    sortOrder = MovieContract.MovieEntry.COLUMN_POP + " DESC LIMIT 20";
 
-                        return new CursorLoader(
-                                getActivity(),
-                                MovieContract.MovieEntry.CONTENT_URI,
-                                ConstantsUtils.MOVIE_COLUMNS,
-                                mSelection,
-                                mSelectionArgs,
-                                sortOrder);
-                    }
+                } else if (MoviePreferences.getPreferredSortType(getContext()).equals("top_rated")){
+                    sortOrder = MovieContract.MovieEntry.COLUMN_VOTESCORE + " DESC LIMIT 20";
 
-                } else {
-                    sortOrder = MovieContract.MovieEntry.COLUMN_POP + " DESC";
+                } else if (SettingsFragment.mPreferenceValue.equals("favorite")) {
+                    String mSelection = MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_FAVORITE + "=?";
+                    String[] mSelectionArgs = new String[]{ConstantsUtils.FAVORITE_TAG};
+
+                    sortOrder = MovieEntry.COLUMN_MOVIE_ID + " ASC";
+
+                    return new CursorLoader(
+                            getActivity(),
+                            MovieContract.MovieEntry.CONTENT_URI,
+                            ConstantsUtils.MOVIE_COLUMNS,
+                            mSelection,
+                            mSelectionArgs,
+                            sortOrder);
                 }
 
                 return new CursorLoader(
@@ -188,9 +188,15 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onResume(){
         super.onResume();
-        if (mMovieAdapter.getItemCount() == 0 || SettingsFragment.mPreferenceChanged){
+//        if (mMovieAdapter.getItemCount() == 0 || SettingsFragment.mPreferenceChanged){
+
+        if (mMovieAdapter.getItemCount() == 0 ){
             MovieSyncUtils.startImmediateSync(getActivity());
         }
+    }
 
+    @Override
+    public void onStop(){
+        super.onStop();
     }
 }

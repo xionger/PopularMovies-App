@@ -17,7 +17,6 @@ import com.xiongxh.popularmovies.R;
 public class SettingsFragment extends PreferenceFragmentCompat implements OnSharedPreferenceChangeListener {
     private static final String LOG_TAG = SettingsFragment.class.getName();
 
-    public static boolean mPreferenceChanged = false;
     public static String mPreferenceValue;
 
     @Override
@@ -55,11 +54,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements OnShar
                 String value = sharedPreferences.getString(preference.getKey(), "");
                 setPreferenceSummary(preference, value);
 
-                mPreferenceChanged = true;
-
                 mPreferenceValue = value;
 
-                Log.d(LOG_TAG, "----------------------preference value" + value);
             }
         }
     }
@@ -83,6 +79,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements OnShar
     @Override
     public void onDestroy(){
         super.onDestroy();
+
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 

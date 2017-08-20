@@ -22,6 +22,8 @@ public class NetworkUtils {
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
+    //public static String mSortType;
+
     //private static final String SEARCH_BASE_URL = "https://api.themoviedb.org/3/search/movie?api_key={key}&query={David}";
 
     //private static final String BASE_URL = "https://api.themoviedb.org/3/discover/movie?";
@@ -41,7 +43,8 @@ public class NetworkUtils {
 
     public static URL getUrl(Context context){
         String sortStr = MoviePreferences.getPreferredSortType(context);
-        //String sortStr = MoviePreferences.sortType;
+        //mSortType = sortStr;
+
         return buildUrlWithQuery(sortStr);
     }
 
