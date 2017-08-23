@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -50,6 +51,7 @@ import com.xiongxh.popularmovies.utilities.NetworkUtils;
 import static android.R.attr.actionModeCopyDrawable;
 import static android.R.attr.data;
 import static android.R.attr.logoDescription;
+import static android.R.attr.subMenuArrow;
 import static com.xiongxh.popularmovies.data.MovieContract.CONTENT_AUTHORITY;
 import static com.xiongxh.popularmovies.data.MovieContract.PATH_REVIEWS;
 import static com.xiongxh.popularmovies.data.MovieContract.PATH_VIDEOS;
@@ -61,6 +63,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public static final String DEFAULT_MOVIE_URI = "URI";
     public static final String DEFAULT_REVIEW_URI = "REVIEW_URI";
     public static final String DEFAULT_TRAILER_URI = "TRAILER_URI";
+
+    private final String SUPER_STATE = "super_state";
+    private final String KEY_REVIEW_VISIBILITY_STATE = "review_visibility_state";
+    private final String KEY_REVIEW_BUTTON_VISIBILITY_STATE = "review_button_visibility_state";
+    private final String KEY_REVIEW_LAYOUT_STATE = "review_layout_state";
+    private final String KEY_TRAILER_BUTTON_VISIBILITY_STATE = "trailer_button_visibility_state";
+    private final String KEY_TRAILER_LAYOUT_STATE = "trailer_layout_state";
 
     private int mTrailerPosition = RecyclerView.NO_POSITION;
 
@@ -80,7 +89,9 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private MovieReviewsAdapter mMovieReviewsAdapter;
     private MovieTrailersAdapter mMovieTrailersAdapter;
 
-    private ListView mReviewsListView;
+    private static Bundle mBundleMovieReviewRecycleViewState;
+    private static Bundle mReadReviewButtonState;
+
     private ListView mTrailersListView;
 
     //private Button mTrailerButton;
@@ -94,6 +105,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @BindView(R.id.tv_movie_overview) TextView mMovieOverview;
     @BindView(R.id.btn_favorite) ImageButton mFavoriteButton;
 
+    @BindView(R.id.rv_movie_reviews) RecyclerView movieReviewRecycleView;
+
     @BindView(R.id.button_read_reviews) Button mReadReviewButton;
     @BindView(R.id.button_hide_reviews) Button mHideReviewButton;
 
@@ -103,6 +116,9 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     @BindView(R.id.button_watch_trailers) Button mWatchTrailerButton;
     @BindView(R.id.button_hide_trailers) Button mHideTrailerButton;
+
+    @BindView(R.id.movie_reviews) LinearLayout reviewLayout;
+    @BindView(R.id.movie_trailers) LinearLayout trailerLayout;
 
     private ListView mReviewsView;
 
@@ -181,7 +197,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             }
         });
 
-        final LinearLayout reviewLayout = (LinearLayout)rootView.findViewById(R.id.movie_reviews);
+        //final LinearLayout reviewLayout = (LinearLayout)rootView.findViewById(R.id.movie_reviews);
 
         mReadReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,7 +227,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
 
         LinearLayoutManager reviewLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        RecyclerView movieReviewRecycleView = (RecyclerView) rootView.findViewById(R.id.rv_movie_reviews);
+        //RecyclerView movieReviewRecycleView = (RecyclerView) rootView.findViewById(R.id.rv_movie_reviews);
         movieReviewRecycleView.setLayoutManager(reviewLayoutManager);
 
         mMovieReviewsAdapter = new MovieReviewsAdapter(getContext());
@@ -219,7 +235,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         movieReviewRecycleView.setAdapter(mMovieReviewsAdapter);
 
 
-        final LinearLayout trailerLayout = (LinearLayout) rootView.findViewById(R.id.movie_trailers);
+        //final LinearLayout trailerLayout = (LinearLayout) rootView.findViewById(R.id.movie_trailers);
 
         mWatchTrailerButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -282,7 +298,47 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         getLoaderManager().initLoader(DETAIL_LOADER_ID, null, this);
         Log.d(LOG_TAG, "After loading detail...");
         super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null){
+            if (mReadReviewButton != null) {
+                mReadReviewButton.setVisibility(savedInstanceState.getInt(KEY_REVIEW_BUTTON_VISIBILITY_STATE, mReadReviewButton.getVisibility()));
+            }
+
+            if (reviewLayout != null) {
+                reviewLayout.setVisibility(savedInstanceState.getInt(KEY_REVIEW_LAYOUT_STATE, reviewLayout.getVisibility()));
+            }
+
+            if (mWatchTrailerButton != null){
+                mWatchTrailerButton.setVisibility(savedInstanceState.getInt(KEY_TRAILER_BUTTON_VISIBILITY_STATE, mWatchTrailerButton.getVisibility()));
+            }
+
+            if (trailerLayout != null){
+                trailerLayout.setVisibility(savedInstanceState.getInt(KEY_TRAILER_LAYOUT_STATE, trailerLayout.getVisibility()));
+            }
+        }
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outstate){
+        super.onSaveInstanceState(outstate);
+
+        if (mReadReviewButton != null){
+            outstate.putInt(KEY_REVIEW_BUTTON_VISIBILITY_STATE, mReadReviewButton.getVisibility());
+        }
+
+        if (reviewLayout != null){
+            outstate.putInt(KEY_REVIEW_LAYOUT_STATE, reviewLayout.getVisibility());
+        }
+
+        if (mWatchTrailerButton != null){
+            outstate.putInt(KEY_TRAILER_BUTTON_VISIBILITY_STATE, mWatchTrailerButton.getVisibility());
+        }
+
+        if (trailerLayout != null){
+            outstate.putInt(KEY_TRAILER_LAYOUT_STATE, trailerLayout.getVisibility());
+        }
+    }
+
 
     private void updateMovieDetailView(Cursor cursor){
 
@@ -434,10 +490,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle loaderArgs){
         Log.d(LOG_TAG, "Entering onCreateLoader(), mMovieUri: " + mMovieDetailUri);
 
-        Intent intent = getActivity().getIntent();
-        if (intent == null || intent.getData() == null){
-            return null;
-        }
+//        Intent intent = getActivity().getIntent();
+//        if (intent == null || intent.getData() == null){
+//            return null;
+//        }
 
         switch (loaderId){
             case DETAIL_LOADER_ID:{
@@ -530,9 +586,18 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+
+    }
+
+    @Override
     public void onResume(){
 
         Log.d(LOG_TAG, "onResume");
         super.onResume();
+
     }
+
+
 }

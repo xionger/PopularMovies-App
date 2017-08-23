@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -45,6 +44,7 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
 
     private MovieAdapter mMovieAdapter;
     private RecyclerView mMoviesRecyclerView;
+
     private int mPosition = RecyclerView.NO_POSITION;
 
     /** TextView that is displayed when the list is empty */
@@ -62,9 +62,9 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
     public void onActivityCreated(Bundle savedInstanceState){
         Log.d(LOG_TAG, "MoviesGridFragment starts!");
 
+        super.onActivityCreated(savedInstanceState);
         //FakeMovieUtils.insertFakeData(getActivity());
         getLoaderManager().initLoader(LOADER_ID, null, this);
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -89,8 +89,6 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
 
         mMoviesRecyclerView.setHasFixedSize(true);
 
-        View emptyView = rootView.findViewById(R.id.view_empty);
-
         /*
          * The GreenAdapter is responsible for displaying each item in the list.
          */
@@ -112,23 +110,23 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
 
         mMoviesRecyclerView.setAdapter(mMovieAdapter);
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)){
-            mPosition = savedInstanceState.getInt(SELECTED_KEY);
-        }
+//        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)){
+//            mPosition = savedInstanceState.getInt(SELECTED_KEY);
+//        }
 
         Log.d(LOG_TAG, "onCreateView returning.");
 
         return rootView;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState){
-        if (mPosition != ListView.INVALID_POSITION){
-            outState.putInt(SELECTED_KEY, mPosition);
-        }
-
-        super.onSaveInstanceState(outState);
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState){
+//        if (mPosition != ListView.INVALID_POSITION){
+//            outState.putInt(SELECTED_KEY, mPosition);
+//        }
+//
+//        super.onSaveInstanceState(outState);
+//    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -136,27 +134,30 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
         switch (id){
             case LOADER_ID: {
 
-                String sortOrder = null;
+                String sortOrder = MovieContract.MovieEntry.COLUMN_POP + " DESC LIMIT 20";
 
-                if (MoviePreferences.getPreferredSortType(getContext()).equals("popular")) {
-                    sortOrder = MovieContract.MovieEntry.COLUMN_POP + " DESC LIMIT 20";
+                if (MoviePreferences.getPreferredSortType(getContext()) != null ) {
 
-                } else if (MoviePreferences.getPreferredSortType(getContext()).equals("top_rated")){
-                    sortOrder = MovieContract.MovieEntry.COLUMN_VOTESCORE + " DESC LIMIT 20";
+                    if (MoviePreferences.getPreferredSortType(getContext()).equals("popular")) {
+                        sortOrder = MovieContract.MovieEntry.COLUMN_POP + " DESC LIMIT 20";
 
-                } else if (SettingsFragment.mPreferenceValue.equals("favorite")) {
-                    String mSelection = MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_FAVORITE + "=?";
-                    String[] mSelectionArgs = new String[]{ConstantsUtils.FAVORITE_TAG};
+                    } else if (MoviePreferences.getPreferredSortType(getContext()).equals("top_rated")) {
+                        sortOrder = MovieContract.MovieEntry.COLUMN_VOTESCORE + " DESC LIMIT 20";
 
-                    sortOrder = MovieEntry.COLUMN_MOVIE_ID + " ASC";
+                    } else {
+                        String mSelection = MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_FAVORITE + "=?";
+                        String[] mSelectionArgs = new String[]{ConstantsUtils.FAVORITE_TAG};
 
-                    return new CursorLoader(
-                            getActivity(),
-                            MovieContract.MovieEntry.CONTENT_URI,
-                            ConstantsUtils.MOVIE_COLUMNS,
-                            mSelection,
-                            mSelectionArgs,
-                            sortOrder);
+                        sortOrder = MovieEntry.COLUMN_MOVIE_ID + " ASC";
+
+                        return new CursorLoader(
+                                getActivity(),
+                                MovieContract.MovieEntry.CONTENT_URI,
+                                ConstantsUtils.MOVIE_COLUMNS,
+                                mSelection,
+                                mSelectionArgs,
+                                sortOrder);
+                    }
                 }
 
                 return new CursorLoader(
@@ -211,6 +212,9 @@ public class MovieGridFragment extends Fragment implements LoaderManager.LoaderC
 
         if (mMovieAdapter.getItemCount() == 0 ){
             MovieSyncUtils.startImmediateSync(getActivity());
+
+        } else {
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
         }
     }
 
