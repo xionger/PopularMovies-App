@@ -17,9 +17,8 @@ This is the first android app I made from scratch for Android Developer Nanodegr
 
 ## Screens
 
-![screen](../master/screenshots/portrait_1.png)
-![screen](../master/screenshots/portrait_2.png)
+<img src="../master/screenshots/portrait_1.png" alt="alt text" width="400"> <img src="../master/screenshots/portrait_2.png" alt="alt text" width="400">
 
-![screen](../master/screenshots/landscape_1.png)
+<img src="../master/screenshots/landscape_1.png" alt="alt text" width="800"> 
 
-![screen](../master/screenshots/landscape_2.png)
+<img src="../master/screenshots/landscape_2.png" alt="alt text" width="800">
